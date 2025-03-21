@@ -19,7 +19,10 @@ async def get_all_task():
 async def create_task(task):
     new_task = await collection.insert_one(task)
     created_task = await collection.find_one({'_id': new_task.inserted_id})
+    # Convertir el _id de ObjectId a string:
+    created_task['_id'] = str(created_task['_id'])
     return created_task
+
 
 async def update_task(id: str, task):
     await collection.update_one({'_id': id}, {'$set': task})

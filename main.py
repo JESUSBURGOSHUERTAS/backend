@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from database import get_all_task, create_task
-from models import Task
+from models import Task,TaskOut
 app = FastAPI()
 
 @app.get("/")
@@ -12,13 +12,12 @@ async def get_tasks():
     task = await get_all_task()
     return task
 
-@app.post("/api/tasks", response_model=Task)
-async def save_task(task: Task): #recibe una task de tipo Task especificado en el modelo
-    response = await create_task(task.model_dump())
-    if response:
-        return response
+@app.post("/api/tasks", response_model=TaskOut)
+async def save_task(task: Task):
+    created_task = await create_task(task.model_dump())
+    if created_task:
+        return created_task
     raise HTTPException(400, "Task not created")
-    
 
 @app.get("/api/tasks/{id}")
 async def get_task():
