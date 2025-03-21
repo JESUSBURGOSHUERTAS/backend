@@ -16,14 +16,15 @@ async def get_tasks():
 async def save_task(task: Task):
     taskFound = await get_one_task(task.title)
     if taskFound:
-        raise HTTPException(400, "Task already exists")
+        raise HTTPException(400, "Task already exists") 
     created_task = await create_task(task.model_dump())
     if created_task:
         return created_task
     raise HTTPException(400, "Task not created")
 
 @app.get("/api/tasks/{id}")
-async def get_task():
+async def get_task(id: str):
+    print(id)
     return "single task"
 
 @app.put("/api/tasks/{id}")
