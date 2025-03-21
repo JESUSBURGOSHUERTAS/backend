@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from database import get_all_task, create_task
+from database import get_all_task, create_task, get_one_task
 from models import Task,TaskOut
 app = FastAPI()
 
@@ -14,6 +14,9 @@ async def get_tasks():
 
 @app.post("/api/tasks", response_model=TaskOut)
 async def save_task(task: Task):
+    taskFound = await get_one_task(task.title)
+    if taskFound:
+        raise HTTPException(400, "Task already exists")
     created_task = await create_task(task.model_dump())
     if created_task:
         return created_task
