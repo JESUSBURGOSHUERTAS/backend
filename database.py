@@ -37,11 +37,11 @@ async def create_task(task):
 
 
 async def update_task(id: str, task):
-    await collection.update_one({'_id': id}, {'$set': task})
+    await collection.update_one({'_id': ObjectId(id)}, {'$set': task})
     document = await collection.find_one({'_id': id})
     return document
 
 async def delete_task(id: str):
-    await collection.delete_one({'_id': id})
+    await collection.delete_one({'_id': ObjectId(id)})
     return True
 
