@@ -7,7 +7,7 @@ app = FastAPI()
 def welcome():
     return {"message": "Welcome to the FastAPI!"}
 
-@app.get("/api/tasks")
+@app.get("/api/tasks", response_model=list[TaskOut])
 async def get_tasks():
     task = await get_all_task()
     return task
@@ -22,7 +22,7 @@ async def save_task(task: Task):
         return created_task
     raise HTTPException(400, "Task not created")
 
-@app.get("/api/tasks/{id}", response_model=Task) 
+@app.get("/api/tasks/{id}", response_model=TaskOut)
 async def get_task(id: str):
     task = await get_one_task_id(id)
     if task:

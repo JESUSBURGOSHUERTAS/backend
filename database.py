@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from models import Task
+from models import Task, TaskOut
 from bson import ObjectId
 
 
@@ -7,9 +7,12 @@ client = AsyncIOMotorClient('mongodb://localhost')
 database = client.taskdatabase
 collection = database.tasks
 
-async def get_one_task_id(id):
-    task = await collection.find_one({'_id': ObjectId(id)})
-    return task
+async def get_one_task_id(id: str):
+    task = await collection.find_one({"_id": ObjectId(id)})
+    if task:
+        task["_id"] = str(task["_id"])  # Convertir ObjectId a string
+        return TaskOut.model_validate(task)  # Usar el modelo con alias
+    return None
 
 async def get_one_task(title):
     task = await collection.find_one({'title': title})
@@ -20,7 +23,8 @@ async def get_all_task():
     tasks = []
     cursor = collection.find({})
     async for document in cursor:
-        tasks.append(Task(**document))
+        document["_id"] = str(document["_id"])  # Convertir ObjectId a string
+        tasks.append(TaskOut.model_validate(document))  # Usar el modelo con alias
     return tasks
     
 
