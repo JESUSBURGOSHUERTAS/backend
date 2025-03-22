@@ -1,11 +1,14 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from models import Task
+from bson import ObjectId
+
+
 client = AsyncIOMotorClient('mongodb://localhost')
 database = client.taskdatabase
 collection = database.tasks
 
-async def get_one_task(id):
-    task = await collection.find_one({'_id': id})
+async def get_one_task_id(id):
+    task = await collection.find_one({'_id': ObjectId(id)})
     return task
 
 async def get_one_task(title):
