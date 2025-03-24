@@ -23,10 +23,3 @@ class UpdateTask(BaseModel):
     description: Optional[str] = None
     completed: Optional[bool] = None
 
-# Modelo de salida: incluye el id asignado
-class TaskOut(Task):
-    id: str = Field(..., alias="_id")
-
-    class Config:
-        populate_by_name = True
-        json_encoders = {ObjectId: str}
