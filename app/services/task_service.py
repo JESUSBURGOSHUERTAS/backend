@@ -1,10 +1,7 @@
-from motor.motor_asyncio import AsyncIOMotorClient
-from models import Task, TaskOut
 from bson import ObjectId
+from app.core.database import database
+from app.schemas.task import TaskOut
 
-
-client = AsyncIOMotorClient('mongodb://localhost')
-database = client.taskdatabase
 collection = database.tasks
 
 async def get_one_task_id(id: str):

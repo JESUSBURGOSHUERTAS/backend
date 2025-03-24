@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException
-from database import get_all_task, create_task, get_one_task, get_one_task_id, delete_task, update_task
-from models import Task,TaskOut, UpdateTask
+from app.services.task_service import (
+    get_all_task, create_task, get_one_task, get_one_task_id, delete_task, update_task
+)
+from app.schemas.task import Task,TaskOut, UpdateTask
 
 task = APIRouter()
 
