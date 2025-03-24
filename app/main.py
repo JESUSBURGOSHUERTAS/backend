@@ -15,5 +15,5 @@ else:
 def welcome():
     return {"message": "Welcome to the FastAPI!"}
 
-app.include_router(task, tags=["Tasks"])
+app.include_router(task, tags=["Tasks"]) # prefix si quiero cambiar la ruta y tags es el nombre que aparece en la documentación
 # app.include_router(company, prefix="/api/v1/companies", tags=["Companies"])
